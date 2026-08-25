@@ -1,0 +1,16 @@
+push(2)
+
+push(7)
+
+push(9)
+
+pop()
+
+push(15)
+
+
+1- Qual o estado final?
+Resposta: 2, 7, 15
+
+2- Qual elemento está no topo?
+Resposta: 15
