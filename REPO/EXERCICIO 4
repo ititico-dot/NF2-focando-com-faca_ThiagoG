@@ -1,1 +1,135 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 
+#define MAX 100
+
+typedef struct {
+    char livros[MAX][50];
+    int topo;
+} Pilha;
+
+void inicializar(Pilha *p) {
+    p->topo = -1;
+}
+
+int isEmpty(Pilha *p) {
+    return p->topo == -1;
+}
+
+int isFull(Pilha *p) {
+    return p->topo == MAX - 1;
+}
+
+void push(Pilha *p, char *livro) {
+    if (isFull(p)) {
+        printf("\n[ERRO] A pilha de livros esta cheia!\n");
+        return;
+    }
+    p->topo++;
+    strcpy(p->livros[p->topo], livro);
+    printf("\n[SUCESSO] Livro \"%s\" inserido!\n", livro);
+}
+
+char* pop(Pilha *p) {
+    if (isEmpty(p)) {
+        printf("\n[ERRO] A pilha de livros esta vazia!\n");
+        return NULL;
+    }
+    char *livroRemovido = p->livros[p->topo];
+    p->topo--;
+    return livroRemovido;
+}
+
+char* top(Pilha *p) {
+    if (isEmpty(p)) {
+        printf("\n[AVISO] A pilha esta vazia. Nenhum livro no topo.\n");
+        return NULL;
+    }
+    return p->livros[p->topo];
+}
+
+void mostrarPilha(Pilha *p) {
+    if (isEmpty(p)) {
+        printf("\nA pilha de livros esta vazia atualmente.\n");
+        return;
+    }
+    printf("\n--- ESTADO ATUAL DA PILHA ---\n");
+    for (int i = p->topo; i >= 0; i--) {
+        if (i == p->topo) {
+            printf("[TOPO] -> %s\n", p->livros[i]);
+        } else {
+            printf("          %s\n", p->livros[i]);
+        }
+    }
+    printf("-----------------------------\n");
+}
+
+int main() {
+    Pilha minhaPilha;
+    inicializar(&minhaPilha);
+    
+    int opcao;
+    char nomeLivro[50];
+    char *removido;
+
+    do {
+        printf("\n======= MENU DA PILHA DE LIVROS =======");
+        printf("\n1 - Inserir Livro (Push)");
+        printf("\n2 - Remover Livro (Pop)");
+        printf("\n3 - Ver o Topo (Top)");
+        printf("\n4 - Verificar se esta vazia (IsEmpty)");
+        printf("\n5 - Mostrar toda a Pilha");
+        printf("\n0 - Sair");
+        printf("\nEscolha uma opcao: ");
+        scanf("%d", &opcao);
+       
+        getchar(); 
+
+        switch (opcao) {
+            case 1:
+                printf("Digite o nome do livro: ");
+             
+                fgets(nomeLivro, 50, stdin);
+                
+                nomeLivro[strcspn(nomeLivro, "\n")] = 0; 
+                
+                push(&minhaPilha, nomeLivro);
+                break;
+
+            case 2:
+                removido = pop(&minhaPilha);
+                if (removido != NULL) {
+                    printf("\n[SUCESSO] Livro removido: %s\n", removido);
+                }
+                break;
+
+            case 3:
+                removido = top(&minhaPilha);
+                if (removido != NULL) {
+                    printf("\nLivro atualmente no topo: %s\n", removido);
+                }
+                break;
+
+            case 4:
+                if (isEmpty(&minhaPilha)) {
+                    printf("\nSim, a pilha esta completamente vazia.\n");
+                } else {
+                    printf("\nNao, a pilha possui livros cadastrados.\n");
+                }
+                break;
+
+            case 5:
+                mostrarPilha(&minhaPilha);
+                break;
+
+            case 0:
+                printf("\nSaindo do programa da biblioteca. Ate logo!\n");
+                break;
+
+            default:
+                printf("\nOpcao invalida! Tente novamente.\n");
+        }
+    } while (opcao != 0);
+
+}
