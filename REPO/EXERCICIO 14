@@ -1,0 +1,130 @@
+----------------LISTA ANTES (Linha 3 até 49):
+
+#include <stdio.h>
+#include <stdlib.h>
+
+typedef struct No {
+    int valor;
+    struct No *prox;
+} No;
+
+No *inicio = NULL;
+
+void inserirFim(int valor) {
+    No *novo = malloc(sizeof(No));
+    novo->valor = valor;
+    novo->prox = NULL;
+
+    if (inicio == NULL) {
+        inicio = novo;
+    } else {
+        No *aux = inicio;
+        while (aux->prox != NULL) {
+            aux = aux->prox;
+        }
+        aux->prox = novo;
+    }
+}
+
+
+void listar() {
+    No *aux = inicio;
+    while (aux != NULL) {
+        printf("%d -> ", aux->valor);
+        aux = aux->prox;
+    }
+    printf("NULL\n");
+}
+
+int main() {
+
+    inserirFim(12);
+    inserirFim(18);
+    inserirFim(25);
+
+    printf("--- LISTA ---\n");
+    listar();
+
+
+}
+
+
+
+
+
+----------------Agora implementamos (Linha 57 até 65; e linha 69):
+
+void inserirInicio(int valor) {
+    No *novo = malloc(sizeof(No));
+    novo->valor = valor;
+
+
+    novo->prox = inicio;
+
+    inicio = novo;
+}
+
+/////////////////////////////////////////////////////////////////
+
+inserirInicio(8);
+
+
+
+----------------Após a implementação desses novos codigos o codigo gera o resultado em 8 → 12 → 18 → 25 → NULL.
+----------------Código completo(Linha 76 até 130);
+
+#include <stdio.h>
+#include <stdlib.h>
+
+typedef struct No {
+    int valor;
+    struct No *prox;
+} No;
+
+No *inicio = NULL;
+
+void inserirFim(int valor) {
+    No *novo = malloc(sizeof(No));
+    novo->valor = valor;
+    novo->prox = NULL;
+
+    if (inicio == NULL) {
+        inicio = novo;
+    } else {
+        No *aux = inicio;
+        while (aux->prox != NULL) {
+            aux = aux->prox;
+        }
+        aux->prox = novo;
+    }
+}
+
+void inserirInicio(int valor) {
+    No *novo = malloc(sizeof(No));
+    novo->valor = valor;
+
+
+    novo->prox = inicio;
+
+    inicio = novo;
+}
+
+void listar() {
+    No *aux = inicio;
+    while (aux != NULL) {
+        printf("%d -> ", aux->valor);
+        aux = aux->prox;
+    }
+    printf("NULL\n");
+}
+
+int main() {
+
+    inserirFim(12);
+    inserirFim(18);
+    inserirFim(25);
+    inserirInicio(8);
+    printf("--- LISTA ---\n");
+    listar();
+
+}
