@@ -1,0 +1,11 @@
+enqueue("Ana")
+
+enqueue("Carlos")
+
+enqueue("Pedro")
+
+dequeue()
+
+enqueue("Lucas")
+
+-------------Estado final da fila = Carlos, Pedro, Lucas
