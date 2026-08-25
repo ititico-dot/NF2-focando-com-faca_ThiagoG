@@ -1,0 +1,2 @@
+O erro é que o i esta como "i<=4"(menor ou igual a 4), mas deve ser "i < 4"(menor que 4), porque em C a contagem começa em 0 e o vetor que estão na operação tem 4 posições,
+para ser menor ou igual, mas não da para ser igual pois fica v[0], v[1], v[2] e v[3], ou seja o maximo que o i pode ser é 3, caso contrario não existe mais valor.
