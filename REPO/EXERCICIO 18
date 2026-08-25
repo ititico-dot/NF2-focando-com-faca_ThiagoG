@@ -1,0 +1,65 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+typedef struct No {
+    int valor;
+    struct No *prox;
+} No;
+
+No *topo = NULL;
+
+void push(int valor) {
+    No *novo = malloc(sizeof(No));
+    if (novo == NULL) {
+        printf("Erro: Falha na alocação de memória.\n");
+        return;
+    }
+    novo->valor = valor;
+    novo->prox = topo;
+    topo = novo;
+}
+
+int pop() {
+
+    if (topo == NULL) {
+        printf("Erro: Pilha vazia (Underflow).\n");
+        return -1;
+    }
+
+    No *aux = topo;
+
+    int valorRemovido = aux->valor;
+    topo = topo->prox;
+
+    free(aux);
+
+    return valorRemovido;
+}
+
+void exibirPilha() {
+    No *aux = topo;
+    printf("Topo -> ");
+    while (aux != NULL) {
+        printf("[%d] -> ", aux->valor);
+        aux = aux->prox;
+    }
+    printf("NULL\n");
+}
+
+int main() {
+
+    push(10);
+    push(20);
+    push(30);
+
+    printf("--- PILHA ATUAL ---\n");
+    exibirPilha();
+
+    printf("\n--- EXECUTANDO POP ---\n");
+    int removido = pop();
+    printf("Valor removido do topo: %d\n", removido);
+
+    printf("\n--- PILHA DEPOIS DO POP ---\n");
+    exibirPilha();
+
+}
