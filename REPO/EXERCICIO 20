@@ -1,0 +1,1 @@
+Com i começando em 1, a soma pula o v[0], contudo o primeiro elemento do vetor nunca é somado, tendo que começar com 0 inicialmente
