@@ -1,1 +1,128 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 
+#define MAX 100
+
+typedef struct {
+    char clientes[MAX][50];
+    int inicio;
+    int fim;
+} Fila;
+
+void inicializar(Fila *f) {
+    f->inicio = 0;
+    f->fim = 0;
+}
+
+int isEmpty(Fila *f) {
+    return f->inicio == f->fim;
+}
+
+int isFull(Fila *f) {
+    return f->fim == MAX;
+}
+
+void enfileirar(Fila *f, char *nome) {
+    if (isFull(f)) {
+        printf("\n[ERRO] A fila do banco esta cheia!\n");
+        return;
+    }
+    strcpy(f->clientes[f->fim], nome);
+    f->fim++;
+    printf("\n[SUCESSO] %s entrou na fila.\n", nome);
+}
+
+char* desenfileirar(Fila *f) {
+    if (isEmpty(f)) {
+        printf("\n[ERRO] Nao ha ninguem na fila para atender!\n");
+        return NULL;
+    }
+
+    char *clienteAtendido = f->clientes[f->inicio];
+
+    f->inicio++;
+    return clienteAtendido;
+}
+
+char* frente(Fila *f) {
+    if (isEmpty(f)) {
+        printf("\n[AVISO] A fila esta vazia atualmente.\n");
+        return NULL;
+    }
+    return f->clientes[f->inicio];
+}
+
+void listar(Fila *f) {
+    if (isEmpty(f)) {
+        printf("\nA fila esta vazia.\n");
+        return;
+    }
+    printf("\n--- FILA DE ATENDIMENTO ATUAL ---\n");
+    for (int i = f->inicio; i < f->fim; i++) {
+        if (i == f->inicio) {
+            printf("[%d] %s <-- PROXIMO\n", i - f->inicio + 1, f->clientes[i]);
+        } else {
+            printf("[%d] %s\n", i - f->inicio + 1, f->clientes[i]);
+        }
+    }
+    printf("---------------------------------\n");
+}
+
+int main() {
+    Fila filaBanco;
+    inicializar(&filaBanco);
+    
+    int opcao;
+    char nomeCliente[50];
+    char *atendido;
+
+    do {
+        printf("\n======= SISTEMA DE ATENDIMENTO BANCO =======");
+        printf("\n1 - Chegada de Cliente");
+        printf("\n2 - Chamar Proximo Cliente");
+        printf("\n3 - Ver quem e o Proximo");
+        printf("\n4 - Listar Fila Completa");
+        printf("\n0 - Sair");
+        printf("\nEscolha uma opcao: ");
+        scanf("%d", &opcao);
+        
+        getchar();
+
+        switch (opcao) {
+            case 1:
+                printf("Digite o nome do cliente: ");
+                fgets(nomeCliente, 50, stdin);
+                nomeCliente[strcspn(nomeCliente, "\n")] = 0;
+                
+                enfileirar(&filaBanco, nomeCliente);
+                break;
+
+            case 2:
+                atendido = desenfileirar(&filaBanco);
+                if (atendido != NULL) {
+                    printf("\n[ATENDIMENTO] Dirija-se ao caixa: %s\n", atendido);
+                }
+                break;
+
+            case 3:
+                atendido = frente(&filaBanco);
+                if (atendido != NULL) {
+                    printf("\nO proximo a ser atendido sera: %s\n", atendido);
+                }
+                break;
+
+            case 4:
+                listar(&filaBanco);
+                break;
+
+            case 0:
+                printf("\nEncerrando sistema do banco. Ate mais!\n");
+                break;
+
+            default:
+                printf("\nOpcao invalida! Tente novamente.\n");
+        }
+    } while (opcao != 0);
+
+}
