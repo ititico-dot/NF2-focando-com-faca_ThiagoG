@@ -1,0 +1,145 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+typedef struct No {
+    char produto[50];
+    int quantidade;
+    struct No *prox;
+} No;
+
+No* inserir(No *inicio, char nome[], int qtd) {
+    No *novo = (No*) malloc(sizeof(No));
+    No *aux;
+
+    if (novo == NULL) {
+        printf("Erro de alocacao!\n");
+        return inicio;
+    }
+
+    strcpy(novo->produto, nome);
+    novo->quantidade = qtd;
+    novo->prox = NULL;
+
+    if (inicio == NULL) {
+        return novo;
+    }
+
+    aux = inicio;
+    while (aux->prox != NULL) {
+        aux = aux->prox;
+    }
+    aux->prox = novo;
+    return inicio;
+}
+
+No* remover(No *inicio, char nome[]) {
+    No *atual = inicio;
+    No *anterior = NULL;
+
+    while (atual != NULL && strcmp(atual->produto, nome) != 0) {
+        anterior = atual;
+        atual = atual->prox;
+    }
+
+    if (atual == NULL) {
+        printf("Produto \"%s\" nao encontrado.\n", nome);
+        return inicio;
+    }
+
+    if (anterior == NULL) {
+        inicio = atual->prox;
+    } else {
+        anterior->prox = atual->prox;
+    }
+
+    free(atual);
+    printf("Produto \"%s\" removido.\n", nome);
+    return inicio;
+}
+
+No* buscar(No *inicio, char nome[]) {
+    No *aux = inicio;
+    while (aux != NULL) {
+        if (strcmp(aux->produto, nome) == 0) {
+            return aux;
+        }
+        aux = aux->prox;
+    }
+    return NULL;
+}
+
+void listar(No *inicio) {
+    No *aux = inicio;
+    if (aux == NULL) {
+        printf("Lista de compras vazia.\n");
+        return;
+    }
+    printf("\n--- LISTA DE COMPRAS ---\n");
+    while (aux != NULL) {
+        printf("Produto: %s | Quantidade: %d\n", aux->produto, aux->quantidade);
+        aux = aux->prox;
+    }
+}
+
+void liberar(No *inicio) {
+    No *aux;
+    while (inicio != NULL) {
+        aux = inicio;
+        inicio = inicio->prox;
+        free(aux);
+    }
+}
+
+int main() {
+    No *lista = NULL;
+    No *encontrado;
+    char nome[50];
+    int opcao, qtd;
+
+    do {
+        printf("\n===== LISTA DE COMPRAS =====\n");
+        printf("1 - Inserir item\n");
+        printf("2 - Remover item\n");
+        printf("3 - Buscar item\n");
+        printf("4 - Listar itens\n");
+        printf("0 - Sair\n");
+        printf("Opcao: ");
+        scanf("%d", &opcao);
+
+        if (opcao == 1) {
+            printf("Produto: ");
+            scanf(" %49[^\n]", nome);
+            printf("Quantidade: ");
+            scanf("%d", &qtd);
+            lista = inserir(lista, nome, qtd);
+            printf("Item inserido!\n");
+        }
+        else if (opcao == 2) {
+            printf("Produto a remover: ");
+            scanf(" %49[^\n]", nome);
+            lista = remover(lista, nome);
+        }
+        else if (opcao == 3) {
+            printf("Produto a buscar: ");
+            scanf(" %49[^\n]", nome);
+            encontrado = buscar(lista, nome);
+            if (encontrado != NULL) {
+                printf("Encontrado -> %s | Quantidade: %d\n",
+                       encontrado->produto, encontrado->quantidade);
+            } else {
+                printf("Produto nao encontrado.\n");
+            }
+        }
+        else if (opcao == 4) {
+            listar(lista);
+        }
+        else if (opcao != 0) {
+            printf("Opcao invalida!\n");
+        }
+
+    } while (opcao != 0);
+
+    liberar(lista);
+    printf("Programa encerrado.\n");
+}
