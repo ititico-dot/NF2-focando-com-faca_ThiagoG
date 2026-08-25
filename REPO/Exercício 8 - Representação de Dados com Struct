@@ -1,0 +1,25 @@
+#include <stdio.h>
+
+typedef struct {
+    char titulo[100];
+    int ano;
+    int duracao;
+} Filme;
+
+int main() {
+    Filme f;
+    printf("=== CADASTRO DE FILME ===\n");
+    printf("Titulo: ");
+    scanf(" %99[^\n]", f.titulo);
+    printf("Ano de lancamento: ");
+    scanf("%d", &f.ano);
+    printf("Duracao (minutos): ");
+    scanf("%d", &f.duracao);
+
+    printf("\n--- DADOS DO FILME ---\n");
+    printf("Titulo  = %s\n", f.titulo);
+    printf("Ano     = %d\n", f.ano);
+    printf("Duracao = %d minutos (%dh%02dmin)\n",
+           f.duracao, f.duracao / 60, f.duracao % 60);
+
+}
