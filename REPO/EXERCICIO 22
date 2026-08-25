@@ -1,0 +1,4 @@
+Vantagens de lista ligada em comparação ao vetor:
+
+--Vantagem 1: O vetor tem tamanho fixo, se reservar 100 e usar 3, ele desperdiça 97 posições de memória e se almentar a reserva para posição 101 o programa quebra. A lista ligada cresce e diminui durante a execução e o "free()" consegue devolver a memória, qunado o item sai.
+--Vantagem 2: Num vetor, remover um elemento do meio deixa um "buraco", para fechá-lo precisa deslocar todos os elementos. Em uma lista ligada, basta mudar um ponteiro.
