@@ -1,0 +1,31 @@
+#include <stdio.h>
+
+int pilha[100];
+int topo = -1;
+
+void push(int valor) {
+
+    if (topo == 99) {
+        printf("A pilha esta cheia\n");
+    } else {
+        topo = topo + 1;
+        pilha[topo] = valor;
+        printf("Inseriu o valor=%d ", valor);
+        printf("na posicao=%d\n", topo);
+    }
+}
+
+int main() {
+
+    printf("--- INSERINDO NA PILHA ---\n");
+    push(10);
+    push(20);
+    push(30);
+
+    printf("\n--- PILHA MONTADA ---\n");
+    for (int i = 0; i <= topo; i++) {
+        printf("vetor[%d] e=%d\n", i, pilha[i]);
+    }
+    printf("O topo esta na posicao=%d\n", topo);
+
+}
