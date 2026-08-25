@@ -1,0 +1,107 @@
+----------------------------------------Esse é o codigo para representar 5 → 10 → 15 → NULL (linha 2 até 48);
+//reciclado do exercicio anterior (o 14)
+
+#include <stdio.h>
+#include <stdlib.h>
+
+typedef struct No {
+    int valor;
+    struct No *prox;
+} No;
+
+No *inicio = NULL;
+
+void inserirFim(int valor) {
+    No *novo = malloc(sizeof(No));
+    novo->valor = valor;
+    novo->prox = NULL;
+
+    if (inicio == NULL) {
+        inicio = novo;
+    } else {
+        No *aux = inicio;
+        while (aux->prox != NULL) {
+            aux = aux->prox;
+        }
+        aux->prox = novo;
+    }
+}
+
+
+void listar() {
+    No *aux = inicio;
+    while (aux != NULL) {
+        printf("%d -> ", aux->valor);
+        aux = aux->prox;
+    }
+    printf("NULL\n");
+}
+
+int main() {
+
+    inserirFim(5);
+    inserirFim(10);
+    inserirFim(15);
+    printf("--- LISTA ---\n");
+    listar();
+
+}
+
+
+
+
+
+--------------------------------------------Para adicionar o 20 no final deve adicionar (Linha 55);
+inserirFim(20);
+
+
+
+
+
+-------------------------------------------Código completo, com o resultado esperado (Linha 62 até 107);
+#include <stdio.h>
+#include <stdlib.h>
+
+typedef struct No {
+    int valor;
+    struct No *prox;
+} No;
+
+No *inicio = NULL;
+
+void inserirFim(int valor) {
+    No *novo = malloc(sizeof(No));
+    novo->valor = valor;
+    novo->prox = NULL;
+
+    if (inicio == NULL) {
+        inicio = novo;
+    } else {
+        No *aux = inicio;
+        while (aux->prox != NULL) {
+            aux = aux->prox;
+        }
+        aux->prox = novo;
+    }
+}
+
+
+void listar() {
+    No *aux = inicio;
+    while (aux != NULL) {
+        printf("%d -> ", aux->valor);
+        aux = aux->prox;
+    }
+    printf("NULL\n");
+}
+
+int main() {
+
+    inserirFim(5);
+    inserirFim(10);
+    inserirFim(15);
+    inserirFim(20);
+    printf("--- LISTA ---\n");
+    listar();
+
+}
