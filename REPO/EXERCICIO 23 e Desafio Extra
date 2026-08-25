@@ -1,0 +1,86 @@
+--------------------------Parte do Exercício 23 - TAD para séries matemáticas (Linha 2 até 68);
+#include <stdio.h>
+
+typedef struct {
+    int quantidade;
+    double soma;
+    double termos[1000];
+} Serie;
+
+void inicializar(Serie *s, int quantidade) {
+    s->quantidade = quantidade;
+    s->soma = 0;
+    for (int i = 0; i < 1000; i++) {
+        s->termos[i] = 0;
+    }
+}
+
+void calcularLeibniz(Serie *s) {
+    double sinal = 1.0;
+    double denominador = 1.0;
+
+    for (int i = 0; i < s->quantidade; i++) {
+        s->termos[i] = sinal / denominador;
+        s->soma = s->soma + s->termos[i];
+
+        sinal = sinal * (-1);
+        denominador = denominador + 2;
+    }
+}
+
+double calcularPi(Serie *s) {
+    return 4 * s->soma;
+}
+
+double cortar(double valor) {
+    long inteiro = valor * 1000000;
+    return inteiro / 1000000.0;
+}
+
+void imprimirSerie(Serie *s) {
+    for (int i = 0; i < s->quantidade; i++) {
+        printf("%f\n", s->termos[i]);
+    }
+}
+
+int main() {
+
+    Serie s;
+    int quantidade;
+
+    printf("Quantidade de termos: ");
+    scanf("%d", &quantidade);
+
+    if (quantidade < 1 || quantidade > 1000) {
+        printf("Digite um valor entre 1 e 1000\n");
+        return 0;
+    }
+
+    inicializar(&s, quantidade);
+    calcularLeibniz(&s);
+
+    printf("\nTermos:\n");
+    imprimirSerie(&s);
+
+    printf("\nValor aproximado de PI:\n");
+    printf("%f\n", cortar(calcularPi(&s)));
+
+}
+
+
+
+
+------------------------A funçaõ principal para o Desafio Extra para modificar o TAD para permitir calcular diferentes séries de Taylor (Linha 75 até 86)
+
+double calcularTaylor(Serie *s, double x) {
+    double termo = 1.0;
+
+    for (int i = 0; i < s->quantidade; i++) {
+        if (i > 0) {
+            termo = termo * x / i;
+        }
+        s->termos[i] = termo;
+        s->soma = s->soma + termo;
+    }
+    return s->soma;
+}
