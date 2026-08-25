@@ -1,0 +1,71 @@
+#include <stdio.h>
+
+#define MAX 100
+#define MEDIA_APROVACAO 6.0
+
+float media(float v[], int n) {
+    float soma = 0;
+    int i;
+    for (i = 0; i < n; i++) {
+        soma += v[i];
+    }
+    return soma / n;
+}
+
+float maiorNota(float v[], int n) {
+    float maior = v[0];
+    int i;
+    for (i = 1; i < n; i++) {
+        if (v[i] > maior) {
+            maior = v[i];
+        }
+    }
+    return maior;
+}
+
+float menorNota(float v[], int n) {
+    float menor = v[0];
+    int i;
+    for (i = 1; i < n; i++) {
+        if (v[i] < menor) {
+            menor = v[i];
+        }
+    }
+    return menor;
+}
+
+int aprovados(float v[], int n) {
+    int i, cont = 0;
+    for (i = 0; i < n; i++) {
+        if (v[i] >= MEDIA_APROVACAO) {
+            cont++;
+        }
+    }
+    return cont;
+}
+
+int main() {
+    float notas[MAX];
+    int n, i;
+
+    printf("Quantos alunos tem a turma? ");
+    scanf("%d", &n);
+
+    if (n <= 0 || n > MAX) {
+        printf("Quantidade invalida!\n");
+        return 1;
+    }
+
+    for (i = 0; i < n; i++) {
+        printf("Nota do aluno %d: ", i + 1);
+        scanf("%f", &notas[i]);
+    }
+
+    printf("\n--- DESEMPENHO DA TURMA ---\n");
+    printf("Media da turma = %.2f\n", media(notas, n));
+    printf("Maior nota     = %.2f\n", maiorNota(notas, n));
+    printf("Menor nota     = %.2f\n", menorNota(notas, n));
+    printf("Aprovados      = %d de %d (nota >= %.1f)\n",
+           aprovados(notas, n), n, MEDIA_APROVACAO);
+    printf("Reprovados     = %d\n", n - aprovados(notas, n));
+}
